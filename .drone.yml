@@ -17,7 +17,7 @@ steps:
   settings:
     tags: ${DRONE_TAG}
   commands:
-  - docker build -t klinux/api:${DRONE_TAG} .
+  - docker build -t klinux/api .
 
 - name: create-image
   image: plugins/docker
