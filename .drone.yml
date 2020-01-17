@@ -13,8 +13,14 @@ steps:
   volumes:
   - name: dockersock
     path: /var/run/
+  environment:
+    DOCKER_USER:
+      from_secret: docker_user
+    DOCKER_PASS:
+      from_secret: docker_pass
   commands:
   - docker build -t klinux/api:v1 .
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
 volumes:
 - name: dockersock
