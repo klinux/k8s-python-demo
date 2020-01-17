@@ -5,7 +5,9 @@ name: default
 
 steps:
 - name: build
-  image: python:3.7-alpine
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run
   commands:
-  - pip install -r requirements.txt
   - docker build -t klinux/api:v1 .
