@@ -10,6 +10,6 @@ steps:
   image: docker:dind
   volumes:
   - name: dockersock
-    path: /var/run
+    path: /var/run/docker.sock
   commands:
   - docker build -t klinux/api:v1 .
