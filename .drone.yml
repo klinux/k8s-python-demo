@@ -8,7 +8,14 @@ metadata:
 
 steps:
 - name: build
-  image: plugins/docker
+  image: docker:dind
   privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
   commands:
   - docker build -t klinux/api:v1 .
+
+volumes:
+- name: dockersock
+  temp: {}
