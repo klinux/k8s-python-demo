@@ -1,0 +1,53 @@
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: api-mtls-jwt
+  namespace: teste
+spec:
+  targets:
+  - name: api
+    ports:
+    - number: 5000
+  peers:
+  - mtls:
+  origins:
+  - jwt:
+      issuer: "https://securetoken.google.com"
+      audiences:
+      - "get"
+      jwksUri: "https://www.googleapis.com/oauth2/v1/certs"
+      jwtHeaders:
+      - "x-goog-iap-jwt-assertion"
+      triggerRules:
+      - excludedPaths:
+        - exact: /health_check
+  principalBinding: USE_ORIGIN
+
+---
+### https://istio.io/docs/reference/config/security/conditions/
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   - source:
+       namespaces: ["test"]
+   to:
+   - operation:
+       methods: ["GET"]
+       paths: ["/info*"]
+   - operation:
+       methods: ["POST"]
+       paths: ["/data"]
+   when:
+   - key: request.auth.claims[iss]
+     values: ["https://accounts.google.com"]

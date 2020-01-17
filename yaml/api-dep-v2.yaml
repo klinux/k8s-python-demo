@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-v2
+  namespace: teste
+spec:
+  selector:
+    matchLabels:
+      app: api
+      tier: v2
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: v2
+    spec:
+      #affinity:
+        #podAffinity:
+        #  requiredDuringSchedulingIgnoredDuringExecution:
+        #  - labelSelector:
+        #     matchExpressions:
+        #      - key: app
+        #        operator: In
+        #        values:
+        #        - api
+        #    topologyKey: "kubernetes.io/hostname"
+        #podAntiAffinity:
+        #  preferredDuringSchedulingIgnoredDuringExecution:
+        #  - weight: 100
+        #    podAffinityTerm:
+        #      labelSelector:
+        #        matchExpressions:
+        #        - key: app
+        #          operator: In
+        #          values:
+        #          - api
+        #      topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: api
+        image: klinux/api:v2
+        imagePullPolicy: Always # IfNotPresent
+        ports:
+        - containerPort: 5000
+        #resources:
+        #  requests:
+        #    cpu: 110m
+        #    memory: 128Mi
+        #  limits:
+        #    cpu: 200m
+        #    memory: 256Mi
+        #readinessProbe:
+        #  httpGet:
+        #    path: /
+        #    port: 80
+        #  initialDelaySeconds: 5
+        #  periodSeconds: 5
+        #  successThreshold: 1
+        #livenessProbe:
+        #  httpGet:
+        #    path: /
+        #    port: 80
+        #    httpHeaders:
+        #    - name: status
+        #      value: "200"
+        #  initialDelaySeconds: 5
+        #  periodSeconds: 5
+        #  failureThreshold: 3
+        #volumeMounts:
+        #- mountPath: /tmp/config.json
+        #  name: mount-config
+        #  subPath: config.json
+      restartPolicy: Always
+      #volumes:
+      #  - name: mount-config
+      #    configMap:
+      #      name: frontend-cfg
+      #      items:
+      #        - key: config.json 
+      #          path: config.json
+      #          mode: 0664

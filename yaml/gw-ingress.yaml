@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gw-ingess
+  namespace: istio-system
+spec:
+  rules:
+  - host: api.netk.local
+    http:
+      paths:
+      - backend:
+          serviceName: istio-ingressgateway
+          servicePort: http2
+        path: /

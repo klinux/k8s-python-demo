@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-v1
+  namespace: teste
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    #kubernetes.io/tls-acme: "true"
+    #certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    #certmanager.k8s.io/acme-challenge-type: dns01
+    #certmanager.k8s.io/acme-dns01-provider: route53
+spec:
+  #tls:
+  #- hosts:
+  #  - frontend.in.devneon.com.br
+  #  secretName: frontend-in-ingress-tls
+  rules:
+  - host: api.teste.neon.com.br
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: api-svc
+          servicePort: 80
