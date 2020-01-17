@@ -17,7 +17,7 @@ steps:
   environment:
     tag: ${DRONE_TAG}
   commands:
-  - echo $$tag
+  - echo ${DRONE_TAG}
   - docker build -t klinux/api:v1 .
 
 - name: create-image
