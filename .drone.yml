@@ -1,0 +1,10 @@
+---
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: build
+  image: python:3.7-alpine
+  commands:
+  - docker build -t klinux/api:v1 .
