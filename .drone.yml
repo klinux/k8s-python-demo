@@ -7,8 +7,21 @@ metadata:
   namespace: ci
 
 steps:
-- name: build
+- name: ci
   image: plugins/docker
+  pull: if-not-exists
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run/
+  settings:
+    tags: ${DRONE_TAG}
+  commands:
+  - docker build -t klinux/api:v1 .
+
+- name: create-image
+  image: plugins/docker
+  pull: if-not-exists
   privileged: true
   volumes:
   - name: dockersock
@@ -21,8 +34,10 @@ steps:
   settings:
     tags: ${DRONE_TAG}
   commands:
-  - docker build -t klinux/api:v1 .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  when:
+  branch:
+    - master
 
 volumes:
 - name: dockersock
