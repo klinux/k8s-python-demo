@@ -1,6 +1,7 @@
+---
 kind: pipeline
 type: kubernetes
-name: default
+name: k8s-python-pipeline
 
 metadata:
   namespace: ci
