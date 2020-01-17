@@ -1,6 +1,9 @@
 kind: pipeline
 type: kubernetes
-name: ci
+name: default
+
+metadata:
+  namespace: ci
 
 steps:
 - name: build
