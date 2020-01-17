@@ -12,11 +12,11 @@ steps:
   privileged: true
   volumes:
   - name: dockersock
-    path: /var/run/docker.sock
+    path: /var/run/
   commands:
   - docker build -t klinux/api:v1 .
 
 volumes:
 - name: dockersock
   host:
-    path: /var/run/docker.sock
+    path: /var/run
