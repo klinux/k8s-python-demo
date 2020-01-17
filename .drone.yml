@@ -14,10 +14,10 @@ steps:
   volumes:
   - name: dockersock
     path: /var/run/
-  settings:
-    tags: ${DRONE_TAG}
+  environment:
+    tag: ${DRONE_TAG}
   commands:
-  - docker build -t klinux/api .
+  - docker build -t klinux/api:$tag .
 
 - name: create-image
   image: plugins/docker
