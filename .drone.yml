@@ -13,7 +13,7 @@ steps:
   privileged: true
   volumes:
   - name: dockersock
-    path: /var/run/
+    path: /var/run/docker.sock
   environment:
     tag: ${DRONE_TAG}
   commands:
@@ -43,4 +43,4 @@ steps:
 volumes:
 - name: dockersock
   host:
-    path: /var/run
+    path: /var/run/docker.sock
